@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1037399743016",
+    "project_id": "authapp-b2b27",
+    "storage_bucket": "authapp-b2b27.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1037399743016:android:6d91ce71de906c7e97731d",
+        "android_client_info": {
+          "package_name": "com.gabriell.authapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDE3doIxzHxutzbcVhzSYHYvVGeM4yV9gI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
