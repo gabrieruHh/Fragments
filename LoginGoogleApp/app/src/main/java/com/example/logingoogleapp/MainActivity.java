@@ -1,5 +1,6 @@
 package com.example.logingoogleapp;
 
+import android.app.ComponentCaller;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -130,28 +131,6 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
-    private void firebaseAuthWithGoogle(String idToken) {
-        AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
-        mAuth.signInWithCredential(credential)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        showLoading(false);
-
-                        if (task.isSuccessful()) {
-                            // Login bem-sucedido
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            updateUI(user);
-                            Toast.makeText(MainActivity.this, "Login realizado com sucesso!", Toast.LENGTH_SHORT).show();
-                        } else {
-                            // Se falhar
-                            updateUI(null);
-                            Toast.makeText(MainActivity.this, "Falha na autenticação: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-    }
-
     private void checkCurrentUser() {
         showLoading(true);
         FirebaseUser currentUser = mAuth.getCurrentUser();
@@ -207,9 +186,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data, @Nullable ComponentCaller caller) {
+        super.onActivityResult(requestCode, resultCode, data, caller);
         if (requestCode == RC_SIGN_IN) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             try {
@@ -223,6 +201,28 @@ public class MainActivity extends AppCompatActivity {
                 updateUI(null);
             }
         }
+    }
+
+    private void firebaseAuthWithGoogle(String idToken) {
+        AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
+        mAuth.signInWithCredential(credential)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        showLoading(false);
+
+                        if (task.isSuccessful()) {
+                            // Login bem-sucedido
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            updateUI(user);
+                            Toast.makeText(MainActivity.this, "Login realizado com sucesso!", Toast.LENGTH_SHORT).show();
+                        } else {
+                            // Se falhar
+                            updateUI(null);
+                            Toast.makeText(MainActivity.this, "Falha na autenticação: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
     }
 
     @Override

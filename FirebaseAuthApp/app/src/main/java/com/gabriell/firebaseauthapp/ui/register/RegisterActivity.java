@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.gabriell.firebaseauthapp.ui.login.LoginActivity;
 import com.gabriell.firebaseauthapp.R;
+import com.gabriell.firebaseauthapp.util.CallDatabase;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
@@ -55,30 +56,31 @@ public class RegisterActivity extends AppCompatActivity {
         String name = etName.getText().toString().trim();
         String email = etEmail.getText().toString().trim();
         String password = etPassword.getText().toString().trim();
+        String menssage ="";
 
-        if (TextUtils.isEmpty(name)){
-            etName.setError("Nome é obrigatorio");
-            etName.requestFocus();
-            return;
-        }
-        if (TextUtils.isEmpty(email)){
-            etName.setError("E-mail é obrigatorio");
-            etEmail.requestFocus();
-            return;
-        }
-        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            etEmail.setError("E-mail inválido");
-            etEmail.requestFocus();
-            return;
-        }
-        if (TextUtils.isEmpty(password)){
-            etName.setError("Senha é obrigatorio");
-            etPassword.requestFocus();
-            return;
-        }if (password.length() < 6){
-            etPassword.setError("Senha deve conter no mínimo 6 caracteres");
-            etPassword.requestFocus();
-            return;
+        CallDatabase.RegisterAccountApp result = CallDatabase.validadetionRegistration(name, email, password, mAuth, mDatabase, menssage);
+
+        if (!result.isValid()){
+            switch (result.getField()){
+                case "name":
+                    etName.setError(result.getErroMenssage());
+                    etName.requestFocus();
+                    break;
+                case "email":
+                    etEmail.setError(result.getErroMenssage());
+                    etEmail.requestFocus();
+                    break;
+                case "password":
+                    etPassword.setError(result.getErroMenssage());
+                    etPassword.requestFocus();
+                    break;
+                case "passwordLength":
+                    etPassword.setError(result.getErroMenssage());
+                    etPassword.requestFocus();
+                    break;
+            }
+        }else{
+                Toast.makeText(this, result.getErroMenssage(), Toast.LENGTH_LONG).show();
         }
 
         btnRegister.setEnabled(false);
@@ -90,7 +92,7 @@ public class RegisterActivity extends AppCompatActivity {
                     if (task.isSuccessful()){
                         FirebaseUser user = mAuth.getCurrentUser();
 
-                        // Atualizar perfil do usuário com o nome
+                        // Atualizar perfil do usuário com o nome'
                         UserProfileChangeRequest profileUpdate = new UserProfileChangeRequest.Builder()
                                 .setDisplayName(name).build();
 
