@@ -23,7 +23,7 @@ import com.google.firebase.auth.FirebaseUser;
 public class LoginActivity extends AppCompatActivity {
 
     private EditText etEmail, etPassword;
-    private Button btnLogin;
+    private Button btnRegister;
     private TextView tvRegister;
     private ProgressBar progressBar;
     private FirebaseAuth mAuth;
@@ -38,13 +38,13 @@ public class LoginActivity extends AppCompatActivity {
 
         etEmail = findViewById(R.id.etEmail);
         etPassword = findViewById(R.id.etPassword);
-        btnLogin = findViewById(R.id.btnLogin);
+        btnRegister = findViewById(R.id.btnLogin);
         tvRegister = findViewById(R.id.tvRegister);
         progressBar = findViewById(R.id.progressBar);
 
         checkCurrentUser();
 
-        btnLogin.setOnClickListener(v -> loginUser());
+        btnRegister.setOnClickListener(v -> loginUser());
 
         tvRegister.setOnClickListener(v -> registerUser());
     }
@@ -75,7 +75,7 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         progressBar.setVisibility(View.VISIBLE);
-        btnLogin.setEnabled(false);
+        btnRegister.setEnabled(false);
 
         //Login com email e senha
         mAuth.signInWithEmailAndPassword(email, password)
@@ -92,19 +92,19 @@ public class LoginActivity extends AppCompatActivity {
                                 }else {
                                     Toast.makeText(this, "E-mail não verificado", Toast.LENGTH_LONG).show();
                                     progressBar.setVisibility(View.GONE);
-                                    btnLogin.setEnabled(true);
+                                    btnRegister.setEnabled(true);
                                 }
 
                             }else {
                                 Toast.makeText(this, "Falha ao verifcar email " + user.getEmail(), Toast.LENGTH_LONG).show();
                                 progressBar.setVisibility(View.GONE);
-                                btnLogin.setEnabled(true);
+                                btnRegister.setEnabled(true);
                             }
                         });
                     }else{
                         Toast.makeText(this, "Falha ao logar com ", Toast.LENGTH_LONG).show();
                         progressBar.setVisibility(View.GONE);
-                        btnLogin.setEnabled(true);
+                        btnRegister.setEnabled(true);
                     }
                 });
     }

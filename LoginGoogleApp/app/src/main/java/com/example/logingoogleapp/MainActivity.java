@@ -124,9 +124,11 @@ public class MainActivity extends AppCompatActivity {
                 new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
+                        startActivity(new Intent(MainActivity.this, TelaLogout.class));
                         updateUI(null);
                         showLoading(false);
                         Toast.makeText(MainActivity.this, "Desconectado com sucesso", Toast.LENGTH_SHORT).show();
+
                     }
                 });
     }
