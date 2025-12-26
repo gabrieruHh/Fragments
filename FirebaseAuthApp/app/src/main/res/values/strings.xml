@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">FirebaseAuthApp</string>
+    <string name="default_web_client_id">1:778992811560:android:beb671abbb2a114b3c3f1d</string>
 </resources>

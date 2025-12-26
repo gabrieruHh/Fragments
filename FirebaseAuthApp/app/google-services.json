@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "778992811560",
+    "firebase_url": "https://fir-authapp-d231f-default-rtdb.firebaseio.com",
     "project_id": "fir-authapp-d231f",
     "storage_bucket": "fir-authapp-d231f.firebasestorage.app"
   },
@@ -12,7 +13,20 @@
           "package_name": "com.gabriell.firebaseauthapp"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "778992811560-1u7chegsp4c8a5pgd03hhlbpfbt86r75.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.gabriell.firebaseauthapp",
+            "certificate_hash": "18e6f30feb5399eee205f1b5b31e9ae8434ed6ed"
+          }
+        },
+        {
+          "client_id": "778992811560-ooia9v8k3o92p2liu5535cgomltaga8t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyBtnkn9eWVeWLt75XlW4MkRA3qajC4H7Ys"
@@ -20,7 +34,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "778992811560-ooia9v8k3o92p2liu5535cgomltaga8t.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

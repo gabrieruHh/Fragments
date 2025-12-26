@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.gabriell.firebaseauthapp.R;
 import com.gabriell.firebaseauthapp.adapters.ItemAdapter;
 import com.gabriell.firebaseauthapp.ui.login.LoginActivity;
+import com.gabriell.firebaseauthapp.util.LogoutGoogle;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -25,8 +27,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class DashboardActivity extends AppCompatActivity {
+public class DashboardActivity extends LogoutGoogle {
 
+    private TextView tvTitle;
     private EditText etNewItem;
     private Button btnAddItem, btnLogout;
     private RecyclerView rvItems;
@@ -68,6 +71,7 @@ public class DashboardActivity extends AppCompatActivity {
         btnAddItem = findViewById(R.id.btnAddItem);
         btnLogout = findViewById(R.id.btnLogout);
         rvItems = findViewById(R.id.rvItems);
+        tvTitle = findViewById(R.id.tvTitle);
 
         itemList = new ArrayList<>();
         adapter = new ItemAdapter(itemList);
@@ -76,13 +80,12 @@ public class DashboardActivity extends AppCompatActivity {
         rvItems.setAdapter(adapter);
 
         btnAddItem.setOnClickListener(v -> addItem());
-        btnLogout.setOnClickListener(v -> logoutUser());
+        btnLogout.setOnClickListener(v -> logout());
 
         loadItems();
 
         // Mostrar boas-vindas
-        Toast.makeText(this, "Bem-vindo, " + currentUser.getDisplayName() + "!",
-                Toast.LENGTH_SHORT).show();
+        tvTitle.setText("Lista de Itens do " + currentUser.getDisplayName());
     }
 
     private void addItem() {
@@ -141,11 +144,6 @@ public class DashboardActivity extends AppCompatActivity {
                         }
                     }
                 });
-    }
-
-    private void logoutUser() {
-        mAuth.signOut();
-        goToLogin();
     }
 
     private void goToLogin() {

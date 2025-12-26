@@ -1,5 +1,7 @@
 package com.gabriell.firebaseauthapp.ui.register;
 
+import static android.view.View.GONE;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -14,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.gabriell.firebaseauthapp.ui.login.LoginActivity;
 import com.gabriell.firebaseauthapp.R;
+import com.gabriell.firebaseauthapp.util.RegisterUser;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
@@ -39,9 +42,6 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        mAuth = FirebaseAuth.getInstance();
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-
         etName = findViewById(R.id.etName);
         etEmail = findViewById(R.id.etEmail);
         etPassword = findViewById(R.id.etPassword);
@@ -56,12 +56,12 @@ public class RegisterActivity extends AppCompatActivity {
         String email = etEmail.getText().toString().trim();
         String password = etPassword.getText().toString().trim();
 
-        if (TextUtils.isEmpty(name)){
+        if (TextUtils.isEmpty(name)) {
             etName.setError("Nome é obrigatorio");
             etName.requestFocus();
             return;
         }
-        if (TextUtils.isEmpty(email)){
+        if (TextUtils.isEmpty(email)) {
             etEmail.setError("E-mail é obrigatorio");
             etEmail.requestFocus();
             return;
@@ -71,11 +71,12 @@ public class RegisterActivity extends AppCompatActivity {
             etEmail.requestFocus();
             return;
         }
-        if (TextUtils.isEmpty(password)){
+        if (TextUtils.isEmpty(password)) {
             etPassword.setError("Senha é obrigatorio");
             etPassword.requestFocus();
             return;
-        }if (password.length() < 6){
+        }
+        if (password.length() < 6) {
             etPassword.setError("Senha deve conter no mínimo 6 caracteres");
             etPassword.requestFocus();
             return;
@@ -84,46 +85,26 @@ public class RegisterActivity extends AppCompatActivity {
         btnRegister.setEnabled(false);
         progressBar.setVisibility(View.VISIBLE);
 
-        mAuth.createUserWithEmailAndPassword(email,password)
-                .addOnCompleteListener(task -> {
-                    //Verifica se o usuario foi criardo com sucesso
-                    if (task.isSuccessful()){
-                        FirebaseUser user = mAuth.getCurrentUser();
+        RegisterUser.registerUserFirebase(this, name, email, password, new RegisterUser.RegistrationCallback() {
+            @Override
+            public void onSuccess() {
+                progressBar.setVisibility(GONE);
+                btnRegister.setEnabled(true);
+                goToLogin();
+            }
+            @Override
+            public void onErro(String erroMenssage) {
+                progressBar.setVisibility(GONE);
+                btnRegister.setEnabled(true);
+                Toast.makeText(RegisterActivity.this, erroMenssage, Toast.LENGTH_LONG).show();
+            }
+        });
+        }
 
-                        // Atualizar perfil do usuário com o nome
-                        UserProfileChangeRequest profileUpdate = new UserProfileChangeRequest.Builder()
-                                .setDisplayName(name).build();
 
-                        user.updateProfile(profileUpdate).addOnCompleteListener(profileTask ->{
-                            if (profileTask.isSuccessful()){
-                                //Salvar dados adicionais no Realtime Database
-                                saveUserDataToDatabase(user.getUid(), name, email);
 
-                                user.sendEmailVerification().addOnCompleteListener(emailTask ->{
-                                    if (emailTask.isSuccessful()){
-                                        Toast.makeText(this, "Cadastro realizado! Verifique seu email "+ user.getEmail(), Toast.LENGTH_LONG).show();
-
-                                        startActivity(new Intent(this, LoginActivity.class));
-                                    }
-                                });
-                            }
-                        });
-                    }else {
-                        Toast.makeText(this, "Falha ao cadastrar ", Toast.LENGTH_LONG).show();
-                        btnRegister.setEnabled(true);
-                        progressBar.setVisibility(View.GONE);
-                    }
-                });
-        btnRegister.setEnabled(true);
-
-    }
-
-    private void saveUserDataToDatabase(String uid, String name, String email) {
-        Map<String, Object> userData = new HashMap<>();
-        userData.put("name", name);
-        userData.put("email", email);
-        userData.put("createdAt", System.currentTimeMillis());
-
-        mDatabase.child("users").child(uid).setValue(userData);
+        private void goToLogin(){
+        startActivity(new Intent(this, LoginActivity.class));
+        finish();
     }
 }
