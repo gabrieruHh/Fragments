@@ -17,6 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.gabriell.firebaseauthapp.ForgotPasswordActivity;
 import com.gabriell.firebaseauthapp.R;
 import com.gabriell.firebaseauthapp.ui.dashboard.DashboardActivity;
 import com.gabriell.firebaseauthapp.ui.register.RegisterActivity;
@@ -37,7 +38,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText etEmail, etPassword;
     private Button btnRegister;
     private SignInButton btnSignGoogle;
-    private TextView tvRegister;
+    private TextView tvRegister, tvForgotPassword;
     private ProgressBar progressBar;
     private FirebaseAuth mAuth;
     private FirebaseUser user;
@@ -58,6 +59,7 @@ public class LoginActivity extends AppCompatActivity {
         btnSignGoogle = findViewById(R.id.btnSignWithGoogle);
         tvRegister = findViewById(R.id.tvRegister);
         progressBar = findViewById(R.id.progressBar);
+        tvForgotPassword = findViewById(R.id.tvForgotPassword);
 
         configureGoogleSignIn();
         btnSignGoogle.setOnClickListener(v -> signWithGoogle());
@@ -65,6 +67,7 @@ public class LoginActivity extends AppCompatActivity {
 
         btnRegister.setOnClickListener(v -> loginUser());
         tvRegister.setOnClickListener(v -> registerUser());
+        tvForgotPassword.setOnClickListener(v -> goToForgotPassword());
     }
 
     private void loginUser() {
@@ -200,6 +203,19 @@ public class LoginActivity extends AppCompatActivity {
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
         finish();
+    }
+
+    private void goToForgotPassword() {
+        Intent intent = new Intent(this, ForgotPasswordActivity.class);
+        String email = etEmail.getText().toString().trim();
+        if (!TextUtils.isEmpty(email)){
+            intent.putExtra("email", email);
+        }else {
+            Toast.makeText(this, "Campo email obrigatio!", Toast.LENGTH_LONG).show();
+            etEmail.requestFocus();
+            return;
+        }
+        startActivity(intent);
     }
 
     private void showLoad(Boolean isShow){
