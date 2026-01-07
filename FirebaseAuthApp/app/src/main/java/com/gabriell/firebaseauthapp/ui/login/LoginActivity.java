@@ -17,10 +17,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.gabriell.firebaseauthapp.ForgotPasswordActivity;
+import com.gabriell.firebaseauthapp.ui.forgotpassword.ForgotPasswordActivity;
 import com.gabriell.firebaseauthapp.R;
-import com.gabriell.firebaseauthapp.ui.dashboard.DashboardActivity;
-import com.gabriell.firebaseauthapp.ui.register.RegisterActivity;
+import com.gabriell.firebaseauthapp.ui.screensdashboard.dashboard.DashboardActivity;
+import com.gabriell.firebaseauthapp.ui.registeruser.RegisterActivity;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -151,6 +151,7 @@ public class LoginActivity extends AppCompatActivity {
                 firebaseAuthWithGoogle(account.getIdToken());
             }catch (ApiException e){
                 Toast.makeText(this, "Erro no login do Google", Toast.LENGTH_LONG).show();
+                showLoad(true);
             }
         }
     }

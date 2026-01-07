@@ -1,4 +1,4 @@
-package com.gabriell.firebaseauthapp.ui.register;
+package com.gabriell.firebaseauthapp.ui.registeruser;
 
 import static android.view.View.GONE;
 
@@ -18,13 +18,7 @@ import com.gabriell.firebaseauthapp.ui.login.LoginActivity;
 import com.gabriell.firebaseauthapp.R;
 import com.gabriell.firebaseauthapp.util.RegisterUser;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class RegisterActivity extends AppCompatActivity {
 

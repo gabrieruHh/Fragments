@@ -32,6 +32,11 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
+
+    buildFeatures{
+        dataBinding = true
+        viewBinding = true
+    }
 }
 
 dependencies {
@@ -50,8 +55,13 @@ dependencies {
 
     // Google Sign-In
     implementation("com.google.android.gms:play-services-auth:21.0.0")
+
+    // Facebook Login
+    implementation("com.facebook.android:facebook-login:latest.release")
+
     //Foto URL
     implementation("com.github.bumptech.glide:glide:4.16.0")
+
     // AndroidX Core
     implementation("androidx.core:core-ktx:1.12.0")
 

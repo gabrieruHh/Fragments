@@ -32,12 +32,12 @@ public class LogoutGoogle extends AppCompatActivity {
         if (account!= null){
             getgoogleSignInAccount().signOut().addOnCompleteListener(task -> {
                 if (task.isSuccessful()){
-                    Toast.makeText(this, "Você deslogou da sua conta", Toast.LENGTH_LONG).show();
-                    redirectedToLogin();
                 }
             });
         }
 
+        Toast.makeText(this, "Você deslogou da sua conta", Toast.LENGTH_LONG).show();
+        redirectedToLogin();
     }
 
     private void redirectedToLogin() {

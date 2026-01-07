@@ -4,12 +4,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
+
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.gabriell.firebaseauthapp.ui.dashboard.DashboardActivity;
+import com.gabriell.firebaseauthapp.ui.screensdashboard.dashboard.DashboardActivity;
 import com.gabriell.firebaseauthapp.ui.login.LoginActivity;
 import com.gabriell.firebaseauthapp.R;
-import com.gabriell.firebaseauthapp.ui.register.RegisterActivity;
+import com.gabriell.firebaseauthapp.ui.registeruser.RegisterActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
