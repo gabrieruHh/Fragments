@@ -16,7 +16,11 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 
+import com.gabriell.firebaseauthapp.databinding.ActivityLoginBinding;
 import com.gabriell.firebaseauthapp.ui.forgotpassword.ForgotPasswordActivity;
 import com.gabriell.firebaseauthapp.R;
 import com.gabriell.firebaseauthapp.ui.screensdashboard.dashboard.DashboardActivity;
@@ -46,10 +50,13 @@ public class LoginActivity extends AppCompatActivity {
 
     private final static int RC_SIGN_IN = 100;
 
+    ActivityLoginBinding binding;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        binding = ActivityLoginBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -68,6 +75,19 @@ public class LoginActivity extends AppCompatActivity {
         btnRegister.setOnClickListener(v -> loginUser());
         tvRegister.setOnClickListener(v -> registerUser());
         tvForgotPassword.setOnClickListener(v -> goToForgotPassword());
+
+        View rootNav = binding.scrollCenter;
+        ViewCompat.setOnApplyWindowInsetsListener(rootNav, (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(
+                    0,
+                    systemBars.top,                 //fica abaixo do statusBar
+                    0,
+                    systemBars.bottom               //fica acima do navigationBar
+            );
+            return insets;
+        });
+
     }
 
     private void loginUser() {

@@ -15,7 +15,10 @@
         android:theme="@style/Theme.FirebaseAuthApp"
         tools:targetApi="31">
         <activity
-            android:name=".AddSalesActivity"
+            android:name=".ui.screensdashboard.addsales.TestProductActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.screensdashboard.addsales.AddSalesActivity"
             android:exported="false" />
         <activity
             android:name=".ResertPasswordActivity"

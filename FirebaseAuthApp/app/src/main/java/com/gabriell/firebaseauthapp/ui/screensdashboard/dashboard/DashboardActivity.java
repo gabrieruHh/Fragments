@@ -2,41 +2,25 @@ package com.gabriell.firebaseauthapp.ui.screensdashboard.dashboard;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.ContentView;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import com.gabriell.firebaseauthapp.AddSalesActivity;
+import com.gabriell.firebaseauthapp.ui.screensdashboard.addsales.AddProductActivity;
 import com.gabriell.firebaseauthapp.R;
-import com.gabriell.firebaseauthapp.adapters.ItemAdapter;
 import com.gabriell.firebaseauthapp.databinding.ActivityDashboardBinding;
 import com.gabriell.firebaseauthapp.ui.login.LoginActivity;
+import com.gabriell.firebaseauthapp.ui.screensdashboard.addsales.TestProductActivity;
 import com.gabriell.firebaseauthapp.ui.screensdashboard.home.HomeFragment;
 import com.gabriell.firebaseauthapp.ui.screensdashboard.profile.ProfileFragment;
 import com.gabriell.firebaseauthapp.util.ChangedFragment;
 import com.gabriell.firebaseauthapp.util.LogoutGoogle;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class DashboardActivity extends LogoutGoogle {
 
@@ -97,7 +81,7 @@ public class DashboardActivity extends LogoutGoogle {
 
         binding.navAddSale.setOnClickListener(v -> {
             animateClick(v);
-            startActivity(new Intent(this, AddSalesActivity.class));
+            startActivity(new Intent(this, TestProductActivity.class));
         });
 
         binding.navProfile.setOnClickListener(v -> {

@@ -3,4 +3,6 @@
     <string name="default_web_client_id">1:778992811560:android:beb671abbb2a114b3c3f1d</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!--    //<string name="add_photo">Adicionar foto</string>-->
 </resources>
