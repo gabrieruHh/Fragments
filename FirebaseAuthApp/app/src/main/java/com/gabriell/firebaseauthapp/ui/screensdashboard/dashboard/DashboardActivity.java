@@ -40,7 +40,8 @@ public class DashboardActivity extends LogoutGoogle {
             return;
         }
 
-        loadFragment(new HomeFragment());
+        startActivity(new Intent(this, TestProductActivity.class));
+//        loadFragment(new HomeFragment());
 
         //Para que o BottomNavigation fique acima do navigationBar
         View rootNav = binding.bottomNavContainer;
