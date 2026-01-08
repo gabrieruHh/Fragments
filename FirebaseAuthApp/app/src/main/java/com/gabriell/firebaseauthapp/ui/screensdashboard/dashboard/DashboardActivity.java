@@ -3,14 +3,12 @@ package com.gabriell.firebaseauthapp.ui.screensdashboard.dashboard;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Toast;
 
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 
-import com.gabriell.firebaseauthapp.ui.screensdashboard.addsales.AddProductActivity;
 import com.gabriell.firebaseauthapp.R;
 import com.gabriell.firebaseauthapp.databinding.ActivityDashboardBinding;
 import com.gabriell.firebaseauthapp.ui.login.LoginActivity;
