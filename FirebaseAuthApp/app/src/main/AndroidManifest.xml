@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES"/>
 
     <application
         android:allowBackup="true"
@@ -18,10 +19,7 @@
             android:name=".ui.screensdashboard.addsales.TestProductActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.screensdashboard.addsales.AddSalesActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ResertPasswordActivity"
+            android:name=".ui.resetpassword.ResetPasswordActivity"
             android:exported="false" />
         <activity
             android:name=".ui.forgotpassword.ForgotPasswordActivity"

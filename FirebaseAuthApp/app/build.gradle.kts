@@ -58,6 +58,9 @@ dependencies {
     // Google Sign-In
     implementation("com.google.android.gms:play-services-auth:21.0.0")
 
+    //RecyclerView
+    implementation("androidx.recyclerview:recyclerview:1.3.2")
+
     //Foto URL
     implementation("com.github.bumptech.glide:glide:4.16.0")
 

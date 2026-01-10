@@ -1,6 +1,8 @@
 package com.gabriell.firebaseauthapp.ui.screensdashboard.dashboard;
 
+import android.Manifest;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 
@@ -32,6 +34,12 @@ public class DashboardActivity extends LogoutGoogle {
         binding = ActivityDashboardBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            requestPermissions(new String[]{Manifest.permission.READ_MEDIA_IMAGES}, 100);
+        } else {
+            requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 100);
+        }
+
         mAuth = FirebaseAuth.getInstance();
 
         FirebaseUser currentUser = mAuth.getCurrentUser();
@@ -40,8 +48,8 @@ public class DashboardActivity extends LogoutGoogle {
             return;
         }
 
-        startActivity(new Intent(this, TestProductActivity.class));
-//        loadFragment(new HomeFragment());
+//        startActivity(new Intent(this, TestProductActivity.class));
+        loadFragment(new HomeFragment());
 
         //Para que o BottomNavigation fique acima do navigationBar
         View rootNav = binding.bottomNavContainer;
