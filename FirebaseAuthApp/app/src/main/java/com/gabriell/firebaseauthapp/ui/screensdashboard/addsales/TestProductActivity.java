@@ -19,6 +19,7 @@ import androidx.core.view.WindowInsetsCompat;
 import com.gabriell.firebaseauthapp.R;
 import com.gabriell.firebaseauthapp.databinding.ActivityTestProductBinding;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -72,13 +73,16 @@ public class TestProductActivity extends AppCompatActivity {
         }
 
         String nomeArquivo = UUID.randomUUID().toString();
-        StorageReference ref = storageRef.child(nomeArquivo);
+        StorageReference ref = FirebaseStorage.getInstance().getReference("imagens")
+                .child(nomeArquivo);
 
         ref.putFile(imageUri)
                 .addOnSuccessListener(taskSnapshot ->
                         ref.getDownloadUrl().addOnSuccessListener(uri -> {
+
                             String url = uri.toString();
 
+                            databaseRef = FirebaseDatabase.getInstance().getReference("imagens");
                             String id = databaseRef.push().getKey();
                             databaseRef.child(id).setValue(url);
 
