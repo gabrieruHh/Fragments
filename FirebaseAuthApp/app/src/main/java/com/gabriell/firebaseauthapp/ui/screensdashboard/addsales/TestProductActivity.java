@@ -67,7 +67,7 @@ public class TestProductActivity extends AppCompatActivity {
     }
 
     private void postar() {
-        String title = binding.edtTitulo.toString();
+        String title = binding.edtTitulo.getText().toString();
         if (imageUri == null || title.isEmpty()){
             Toast.makeText(this, "Preencha todos os campos", Toast.LENGTH_LONG).show();
             return;

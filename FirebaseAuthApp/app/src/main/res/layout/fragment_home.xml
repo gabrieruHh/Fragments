@@ -13,11 +13,12 @@
         android:gravity="center_horizontal"
         android:textSize="24sp"
         android:textStyle="bold"
-        android:layout_margin="50dp"/>
+        android:layout_marginTop="24sp"/>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewImg"
+        android:id="@+id/recyclerViewPost"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:layout_marginTop="5dp"/>
 
 </LinearLayout>

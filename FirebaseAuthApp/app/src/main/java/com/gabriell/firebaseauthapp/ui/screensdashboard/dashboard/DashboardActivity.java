@@ -6,6 +6,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -22,7 +23,7 @@ import com.gabriell.firebaseauthapp.util.LogoutGoogle;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class DashboardActivity extends LogoutGoogle {
+public class DashboardActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
 

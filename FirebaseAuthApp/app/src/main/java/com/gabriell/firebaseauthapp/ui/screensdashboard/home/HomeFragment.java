@@ -5,17 +5,15 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.gabriell.firebaseauthapp.R;
-import com.gabriell.firebaseauthapp.adapters.ImageAdapter;
+import com.gabriell.firebaseauthapp.adapters.PostAdapter;
 import com.gabriell.firebaseauthapp.databinding.FragmentHomeBinding;
+import com.gabriell.firebaseauthapp.models.Post;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -27,8 +25,8 @@ import java.util.List;
 
 public class HomeFragment extends Fragment {
 
-    List<String> listImagens;
-    ImageAdapter imageAdapter;
+    List<Post> listPost = new ArrayList<>();
+    PostAdapter postAdapter;
 
     DatabaseReference databaseRef;
 
@@ -39,34 +37,32 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         binding = FragmentHomeBinding.inflate(getLayoutInflater());
 
-        binding.recyclerViewImg.setLayoutManager(new LinearLayoutManager(requireContext()));
+        binding.recyclerViewPost.setLayoutManager(new LinearLayoutManager(requireContext()));
 
-        listImagens = new ArrayList<>();
+        postAdapter = new PostAdapter(requireContext(), listPost);
 
-        imageAdapter = new ImageAdapter(requireContext(), listImagens);
+        binding.recyclerViewPost.setAdapter(postAdapter);
 
-        binding.recyclerViewImg.setAdapter(imageAdapter);
+        databaseRef = FirebaseDatabase.getInstance().getReference("post");
 
-        databaseRef = FirebaseDatabase.getInstance().getReference("imagens");
-
-        carregarImagens();
+        carregarPosts();
 
         return binding.getRoot();
     }
 
-    private void carregarImagens() {
+    private void carregarPosts() {
         databaseRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                listImagens.clear();
+                listPost.clear();
                 Toast.makeText(requireContext(), "Qtd: " + snapshot.getChildrenCount(), Toast.LENGTH_LONG).show();
 
                 for (DataSnapshot snap : snapshot.getChildren()){
-                    String url = snap.getValue(String.class);
-                    listImagens.add(url);
+                    Post post = snap.getValue(Post.class);
+                    listPost.add(post);
                 }
 
-                imageAdapter.notifyDataSetChanged();
+                postAdapter.notifyDataSetChanged();
             }
 
             @Override

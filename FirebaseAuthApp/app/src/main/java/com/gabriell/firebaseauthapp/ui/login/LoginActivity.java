@@ -60,13 +60,13 @@ public class LoginActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
 
-        etEmail = findViewById(R.id.etEmail);
-        etPassword = findViewById(R.id.etPassword);
-        btnRegister = findViewById(R.id.btnLogin);
-        btnSignGoogle = findViewById(R.id.btnSignWithGoogle);
-        tvRegister = findViewById(R.id.tvRegister);
-        progressBar = findViewById(R.id.progressBar);
-        tvForgotPassword = findViewById(R.id.tvForgotPassword);
+        etEmail = binding.etEmail;
+        etPassword = binding.etPassword;
+        btnRegister = binding.btnLogin;
+        btnSignGoogle = binding.btnSignWithGoogle;
+        tvRegister = binding.tvRegister;
+        progressBar = binding.progressBar;
+        tvForgotPassword = binding.tvForgotPassword;
 
         configureGoogleSignIn();
         btnSignGoogle.setOnClickListener(v -> signWithGoogle());
