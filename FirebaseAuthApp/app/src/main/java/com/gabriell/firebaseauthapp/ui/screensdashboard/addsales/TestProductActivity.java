@@ -18,6 +18,8 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.gabriell.firebaseauthapp.R;
 import com.gabriell.firebaseauthapp.databinding.ActivityTestProductBinding;
+import com.gabriell.firebaseauthapp.models.Post;
+import com.google.android.gms.auth.api.signin.internal.Storage;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
@@ -31,10 +33,8 @@ public class TestProductActivity extends AppCompatActivity {
 
     Uri imageUri;
 
-    FirebaseStorage storage;
-    StorageReference storageRef;
     DatabaseReference databaseRef;
-
+    StorageReference storageRef;
     ActivityTestProductBinding binding;
 
     @Override
@@ -43,11 +43,11 @@ public class TestProductActivity extends AppCompatActivity {
         binding = ActivityTestProductBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        storage = FirebaseStorage.getInstance();
-        storageRef = storage.getReference("imagens");
+        databaseRef = FirebaseDatabase.getInstance().getReference("post");
+        storageRef = FirebaseStorage.getInstance().getReference("post");
 
-        binding.btnEscolherImage.setOnClickListener(v -> escolherImagem());
-        binding.btnEnviar.setOnClickListener(v -> enviarImagem());
+        binding.btnEscolher.setOnClickListener(v -> escolherImagem());
+        binding.btnEnviar.setOnClickListener(v -> postar());
     }
 
     private void escolherImagem() {
@@ -66,32 +66,33 @@ public class TestProductActivity extends AppCompatActivity {
         }
     }
 
-    private void enviarImagem() {
-        if (imageUri == null){
-            Toast.makeText(this, "Escolha uma imagem", Toast.LENGTH_LONG).show();
+    private void postar() {
+        String title = binding.edtTitulo.toString();
+        if (imageUri == null || title.isEmpty()){
+            Toast.makeText(this, "Preencha todos os campos", Toast.LENGTH_LONG).show();
             return;
         }
 
         String nomeArquivo = UUID.randomUUID().toString();
-        StorageReference ref = FirebaseStorage.getInstance().getReference("imagens")
-                .child(nomeArquivo);
+        StorageReference ref = storageRef.child(nomeArquivo);
 
         ref.putFile(imageUri)
                 .addOnSuccessListener(taskSnapshot ->
                         ref.getDownloadUrl().addOnSuccessListener(uri -> {
 
                             String url = uri.toString();
+                            Post post = new Post(title, url);
 
-                            databaseRef = FirebaseDatabase.getInstance().getReference("imagens");
                             String id = databaseRef.push().getKey();
-                            databaseRef.child(id).setValue(url);
+                            databaseRef.child(id).setValue(post);
 
-                            Toast.makeText(this, "Imagem enviada!", Toast.LENGTH_LONG).show();
+                            Toast.makeText(this, "Post criado!", Toast.LENGTH_LONG).show();
                         })
                 ).addOnFailureListener(e -> {
                     Toast.makeText(this, "Erro: " + e.getMessage(), Toast.LENGTH_LONG).show();
                 });
 
         imageUri = null;
+        binding.imgPreview.setImageURI(null);
     }
 }
