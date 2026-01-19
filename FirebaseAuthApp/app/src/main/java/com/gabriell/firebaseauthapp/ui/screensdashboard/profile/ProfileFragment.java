@@ -41,7 +41,7 @@ public class ProfileFragment extends Fragment {
     private void carregarDados() {
         //Para pegar o nome o usuario
         binding.txtNome.setText(user.getDisplayName());
-     
+
         //Para pegar a imagem da conta do usuario e exibir
         Uri uri = user.getPhotoUrl();
         if (uri != null){

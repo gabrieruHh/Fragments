@@ -20,6 +20,8 @@ import com.gabriell.firebaseauthapp.R;
 import com.gabriell.firebaseauthapp.databinding.ActivityTestProductBinding;
 import com.gabriell.firebaseauthapp.models.Post;
 import com.google.android.gms.auth.api.signin.internal.Storage;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
@@ -33,6 +35,8 @@ public class TestProductActivity extends AppCompatActivity {
 
     Uri imageUri;
 
+    FirebaseAuth mAuth;
+    FirebaseUser mUser;
     DatabaseReference databaseRef;
     StorageReference storageRef;
     ActivityTestProductBinding binding;
@@ -42,6 +46,9 @@ public class TestProductActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityTestProductBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        mAuth = FirebaseAuth.getInstance();
+        mUser = mAuth.getCurrentUser();
 
         databaseRef = FirebaseDatabase.getInstance().getReference("post");
         storageRef = FirebaseStorage.getInstance().getReference("post");
@@ -67,11 +74,19 @@ public class TestProductActivity extends AppCompatActivity {
     }
 
     private void postar() {
+        //recebendo dados da postagem
+        String idUser = mUser.getUid();
         String title = binding.edtTitulo.getText().toString();
-        if (imageUri == null || title.isEmpty()){
-            Toast.makeText(this, "Preencha todos os campos", Toast.LENGTH_LONG).show();
-            return;
+
+        if (idUser != null){
+            if (imageUri == null || title.isEmpty()){
+                Toast.makeText(this, "Preencha todos os campos", Toast.LENGTH_LONG).show();
+                return;
+            }
+        }else {
+            Toast.makeText(this, "Usuário vazio", Toast.LENGTH_LONG).show();
         }
+
 
         String nomeArquivo = UUID.randomUUID().toString();
         StorageReference ref = storageRef.child(nomeArquivo);
@@ -81,10 +96,13 @@ public class TestProductActivity extends AppCompatActivity {
                         ref.getDownloadUrl().addOnSuccessListener(uri -> {
 
                             String url = uri.toString();
-                            Post post = new Post(title, url);
+                            Post post = new Post(idUser, title, url);
 
                             String id = databaseRef.push().getKey();
                             databaseRef.child(id).setValue(post);
+
+                            imageUri = null;
+                            binding.imgPreview.setImageURI(null);
 
                             Toast.makeText(this, "Post criado!", Toast.LENGTH_LONG).show();
                         })
@@ -92,7 +110,5 @@ public class TestProductActivity extends AppCompatActivity {
                     Toast.makeText(this, "Erro: " + e.getMessage(), Toast.LENGTH_LONG).show();
                 });
 
-        imageUri = null;
-        binding.imgPreview.setImageURI(null);
     }
 }

@@ -5,23 +5,33 @@ import android.widget.TextView;
 
 public class Post {
 
-    String title;
-    String imageUrl;
+    private String userId;
+    private String description;
+    private String imageUrl;
 
     public Post() { //  Obrigatório para o Firebase
     }
 
-    public Post(String title, String imageUrl) {
-        this.title = title;
+    public Post(String userId, String description, String imageUrl) {
+        this.userId = userId;
+        this.description = description;
         this.imageUrl = imageUrl;
     }
 
-    public String getTitle() {
-        return title;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String title) {
+        this.description = title;
     }
 
     public String getImageUrl() {

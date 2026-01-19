@@ -1,8 +1,18 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Base.Theme.FirebaseAuthApp" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <!--        //muda a cor dos icones status bar para escuro-->
+        <item name="android:statusBarColor">@color/status_bar_color</item>
+
+
+        <!--        //Muda a cor dos icones para escuro-->
+        <item name="android:windowLightStatusBar">true</item>
+
+        <!--        //Muda a cor da barra de navegação -->
+        <item name="android:navigationBarColor">#00121212</item>
+
+        <!--        //Muda a cor do icone da barra de navegação-->
+        <item name="android:windowLightNavigationBar" tools:targetApi="27">true</item>
     </style>
 
     <style name="Theme.FirebaseAuthApp" parent="Base.Theme.FirebaseAuthApp" />
