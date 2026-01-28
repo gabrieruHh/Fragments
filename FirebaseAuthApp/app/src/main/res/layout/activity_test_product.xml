@@ -1,51 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="60dp"
+    android:orientation="vertical"
+    android:padding="16dp">
 
-    <ScrollView
+    <EditText
+        android:id="@+id/etDescription"
+        android:hint="Descrição"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"/>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:gravity="center_horizontal">
+    <Button
+        android:id="@+id/btnSelectImages"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Selecionar Imagens" />
 
-            <EditText
-                android:id="@+id/edtTitulo"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="30dp"
-                android:textAlignment="center"
-                android:hint="Digite o título"
-                android:layout_marginTop="100dp"/>
 
-            <ImageView
-                android:id="@+id/imgPreview"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:scaleType="fitXY"
-                android:layout_marginTop="10dp"/>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:nestedScrollingEnabled="false" />
 
-            <Button
-                android:id="@+id/btnEscolher"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Escolher imagem"
-                android:layout_marginTop="50dp"/>
+    <Button
+        android:id="@+id/btnPostar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Postar venda"
+        android:layout_marginTop="30dp"
+        android:layout_gravity="center_horizontal"/>
 
-            <Button
-                android:id="@+id/btnEnviar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Postar"
-                android:layout_marginTop="150dp"
-                android:layout_marginBottom="30dp"/>
 
-        </LinearLayout>
-
-    </ScrollView>
-
-</layout>
+</LinearLayout>

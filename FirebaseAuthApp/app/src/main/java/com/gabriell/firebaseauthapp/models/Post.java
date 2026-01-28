@@ -3,19 +3,21 @@ package com.gabriell.firebaseauthapp.models;
 import android.net.Uri;
 import android.widget.TextView;
 
+import java.util.List;
+
 public class Post {
 
     private String userId;
     private String description;
-    private String imageUrl;
+    private List<String> listImageUrl;
 
     public Post() { //  Obrigatório para o Firebase
     }
 
-    public Post(String userId, String description, String imageUrl) {
+    public Post(String userId, String description, List<String> listImageUrl) {
         this.userId = userId;
         this.description = description;
-        this.imageUrl = imageUrl;
+        this.listImageUrl = listImageUrl;
     }
 
     public String getUserId() {
@@ -34,11 +36,11 @@ public class Post {
         this.description = title;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
+    public List<String> getImageUrl() {
+        return listImageUrl;
     }
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
+    public void setImageUrl(List<String> imageUrl) {
+        this.listImageUrl = imageUrl;
     }
 }

@@ -10,6 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -64,13 +65,13 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
             }
         });
 
-
         holder.txtDescription.setText(post.getDescription());
 
-
-        Glide.with(context)
-                .load(post.getImageUrl())
-                .into(holder.imageView);
+        ImagePostAdapter imagePostAdapter = new ImagePostAdapter(context, post.getImageUrl());
+        holder.rvImages.setLayoutManager(
+                new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        );
+        holder.rvImages.setAdapter(imagePostAdapter);
     }
 
     @Override
@@ -80,11 +81,11 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
 
     public class ViewHolder extends RecyclerView.ViewHolder{
 
-        ImageView imageView;
+        RecyclerView rvImages;
         TextView txtDescription, txtName;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            imageView = itemView.findViewById(R.id.imgPost);
+            rvImages = itemView.findViewById(R.id.listImgPost);
             txtDescription = itemView.findViewById(R.id.txtDescription);
             txtName = itemView.findViewById(R.id.txtNameUser);
         }
