@@ -11,9 +11,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.gabriell.firebaseauthapp.R;
 import com.gabriell.firebaseauthapp.adapters.PostAdapter;
 import com.gabriell.firebaseauthapp.databinding.FragmentHomeBinding;
 import com.gabriell.firebaseauthapp.models.Post;
+import com.gabriell.firebaseauthapp.ui.details.DetailsFragment;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -39,7 +41,19 @@ public class HomeFragment extends Fragment {
 
         binding.recyclerViewPost.setLayoutManager(new LinearLayoutManager(requireContext()));
 
-        postAdapter = new PostAdapter(requireContext(), listPost);
+        postAdapter = new PostAdapter(requireContext(), listPost, post -> {
+            DetailsFragment detailsFragment = new DetailsFragment();
+            Bundle bundle = new Bundle();
+            bundle.putString("postId", post.getUserId());
+            detailsFragment.setArguments(bundle);
+
+            requireActivity()
+                    .getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.container_center, detailsFragment)
+                    .addToBackStack(null)
+                    .commit();
+        });
 
         binding.recyclerViewPost.setAdapter(postAdapter);
 
@@ -55,8 +69,6 @@ public class HomeFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 listPost.clear();
-                Toast.makeText(requireContext(), "Qtd: " + snapshot.getChildrenCount(), Toast.LENGTH_LONG).show();
-
                 for (DataSnapshot snap : snapshot.getChildren()){
                     Post post = snap.getValue(Post.class);
                     listPost.add(post);

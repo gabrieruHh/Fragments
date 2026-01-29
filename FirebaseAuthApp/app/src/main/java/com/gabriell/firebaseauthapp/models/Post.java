@@ -10,11 +10,13 @@ public class Post {
     private String userId;
     private String description;
     private List<String> listImageUrl;
+    private String idProduct;
 
     public Post() { //  Obrigatório para o Firebase
     }
 
-    public Post(String userId, String description, List<String> listImageUrl) {
+    public Post(String idProduct, String userId, String description, List<String> listImageUrl) {
+        this.idProduct = idProduct;
         this.userId = userId;
         this.description = description;
         this.listImageUrl = listImageUrl;
@@ -42,5 +44,13 @@ public class Post {
 
     public void setImageUrl(List<String> imageUrl) {
         this.listImageUrl = imageUrl;
+    }
+
+    public String getIdProduct() {
+        return idProduct;
+    }
+
+    public void setIdProduct(String idProduct) {
+        this.idProduct = idProduct;
     }
 }

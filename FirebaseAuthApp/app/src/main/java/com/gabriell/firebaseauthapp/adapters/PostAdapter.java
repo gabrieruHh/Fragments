@@ -10,12 +10,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.gabriell.firebaseauthapp.R;
 import com.gabriell.firebaseauthapp.models.Post;
+import com.gabriell.firebaseauthapp.ui.details.DetailsFragment;
+import com.gabriell.firebaseauthapp.util.ChangedFragment;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -30,9 +33,16 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
     private Context context;
     private List<Post> listPost;
 
-    public PostAdapter(Context context, List<Post> listPost) {
+    //Criando interface para poder clicar em um item na lista
+    public interface OnPostClickListenner{
+        void OnPostClick(Post post);
+    }
+    private OnPostClickListenner listenner;
+
+    public PostAdapter(Context context, List<Post> listPost, OnPostClickListenner listenner) {
         this.context = context;
         this.listPost = listPost;
+        this.listenner = listenner;
     }
 
     @NonNull
@@ -72,6 +82,15 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
                 new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         );
         holder.rvImages.setAdapter(imagePostAdapter);
+
+        holder.txtDescription.setOnClickListener(v -> {
+            Toast.makeText(context, "item clicado", Toast.LENGTH_LONG).show();
+        });
+
+        //Click para levar para uma tela de fragment atraves do item clicado do recycler view
+        holder.rvImages.setOnClickListener(v -> {
+            listenner.OnPostClick(post);
+        });
     }
 
     @Override
@@ -87,7 +106,14 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
             super(itemView);
             rvImages = itemView.findViewById(R.id.listImgPost);
             txtDescription = itemView.findViewById(R.id.txtDescription);
-            txtName = itemView.findViewById(R.id.txtNameUser);
+            txtName = itemView.findViewById(R.id.nameUser);
+
+            itemView.setOnClickListener(v -> {
+                int position = getAdapterPosition();
+                if (position != RecyclerView.NO_POSITION && listenner != null){
+                    listenner.OnPostClick(listPost.get(position));
+                }
+            });
         }
     }
 }

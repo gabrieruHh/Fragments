@@ -49,6 +49,7 @@ public class TestProductActivity extends AppCompatActivity {
     //Variavéis para selecionar imagens do usuario
     private List<Uri> uriList = new ArrayList<>();
     private ImageAdapter imageAdapter;
+    private String idPost;
 
     //Define o limite maximo de imagens selecionadas
     private static final int MAX_IMAGES = 5;
@@ -128,10 +129,10 @@ public class TestProductActivity extends AppCompatActivity {
     }
 
     private void salvarNoFirebase(String idUser, String description, List<String> urlList) {
-        Post post = new Post(idUser, description, urlList);
+        idPost = databaseRef.push().getKey();
 
-        String idPost = databaseRef.push().getKey();
         if (idPost != null){
+            Post post = new Post(idPost,idUser, description, urlList);
             databaseRef.child(idPost).setValue(post)
                     .addOnSuccessListener(unused -> {
                         Toast.makeText(this, "Venda publicada com sucesso!", Toast.LENGTH_LONG).show();
