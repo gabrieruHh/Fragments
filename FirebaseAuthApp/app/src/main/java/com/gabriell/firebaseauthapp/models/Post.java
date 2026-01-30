@@ -12,14 +12,19 @@ public class Post {
     private List<String> listImageUrl;
     private String idProduct;
 
+    private double latitude;
+    private double longitude;
+
     public Post() { //  Obrigatório para o Firebase
     }
 
-    public Post(String idProduct, String userId, String description, List<String> listImageUrl) {
+    public Post(String idProduct, String userId, String description, List<String> listImageUrl, double latitude, double longitude) {
         this.idProduct = idProduct;
         this.userId = userId;
         this.description = description;
         this.listImageUrl = listImageUrl;
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 
     public String getUserId() {
@@ -52,5 +57,21 @@ public class Post {
 
     public void setIdProduct(String idProduct) {
         this.idProduct = idProduct;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
     }
 }

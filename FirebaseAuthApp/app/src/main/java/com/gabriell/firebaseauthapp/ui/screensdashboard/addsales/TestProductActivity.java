@@ -131,8 +131,11 @@ public class TestProductActivity extends AppCompatActivity {
     private void salvarNoFirebase(String idUser, String description, List<String> urlList) {
         idPost = databaseRef.push().getKey();
 
+        double longitude = 2342413;
+        double latitude = 41241341;
+
         if (idPost != null){
-            Post post = new Post(idPost,idUser, description, urlList);
+            Post post = new Post(idPost,idUser, description, urlList, latitude, longitude);
             databaseRef.child(idPost).setValue(post)
                     .addOnSuccessListener(unused -> {
                         Toast.makeText(this, "Venda publicada com sucesso!", Toast.LENGTH_LONG).show();

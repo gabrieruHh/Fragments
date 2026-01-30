@@ -15,6 +15,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FirebaseAuthApp"
         tools:targetApi="31">
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyDRfpIUxSKVlY6lUB8WpH1Ymo4ZGjTEFK8"/>
+
         <activity
             android:name=".ui.screensdashboard.addsales.TestProductActivity"
             android:exported="false" />
