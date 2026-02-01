@@ -67,7 +67,9 @@ dependencies {
     // AndroidX Core
     implementation("androidx.core:core-ktx:1.12.0")
 
+    //Dependencia para a localização do mapa
     implementation("com.google.android.libraries.places:places:3.3.0")
+    implementation("com.google.android.gms:play-services-location:21.0.1")
 
     implementation(libs.firebase.storage)
     implementation(libs.play.services.maps)

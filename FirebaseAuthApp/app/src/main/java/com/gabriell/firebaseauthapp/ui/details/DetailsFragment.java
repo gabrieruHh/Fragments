@@ -1,11 +1,14 @@
 package com.gabriell.firebaseauthapp.ui.details;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -15,6 +18,8 @@ import android.widget.Toast;
 
 import com.gabriell.firebaseauthapp.R;
 import com.gabriell.firebaseauthapp.databinding.FragmentDetailsBinding;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -46,6 +51,11 @@ public class DetailsFragment extends Fragment implements OnMapReadyCallback {
     private Map<String, Object> location = new HashMap<>();
     private Map<String, Object> anddressMap = new HashMap<>();
 
+    private FusedLocationProviderClient fusedLocationClient;
+
+    //Variavel para identificar result da localização
+    private static final int LOCATION_PERMISSION_REQUEST = 1002;
+
     DatabaseReference databaseReference;
     FragmentDetailsBinding binding;
 
@@ -53,6 +63,8 @@ public class DetailsFragment extends Fragment implements OnMapReadyCallback {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentDetailsBinding.inflate(getLayoutInflater());
+
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext());
 
         //para vincular id do fragmentMap
         SupportMapFragment mapFragment =
@@ -65,12 +77,58 @@ public class DetailsFragment extends Fragment implements OnMapReadyCallback {
                 getString(R.string.google_maps_key));
 
         databaseReference = FirebaseDatabase.getInstance().getReference("locations");
+
+        checkLocationPermission();
+
         binding.edtAddress.requestFocus();
-        binding.btnSalvarLatitude.setOnClickListener(v -> salvarLatitude());
         binding.edtAddress.setOnClickListener(v -> listarAnddress());
+        binding.btnSalvarLatitude.setOnClickListener(v -> salvarLatitude());
         binding.btnSalvarAnddress.setOnClickListener(v -> salvarAnddress());
 
         return binding.getRoot();
+    }
+
+    private void checkLocationPermission() {
+        if (ContextCompat.checkSelfPermission(requireContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION)
+            !=PackageManager.PERMISSION_GRANTED){
+                requestPermissions(
+                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                        LOCATION_PERMISSION_REQUEST
+                );
+        } else {
+            getCurrentLocation();
+        }
+
+    }
+
+    private void getCurrentLocation(){
+        if (ContextCompat.checkSelfPermission(requireContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION)
+        != PackageManager.PERMISSION_GRANTED){
+            return;
+        }
+
+        fusedLocationClient.getLastLocation().addOnSuccessListener(location1 -> {
+            if (location1 != null) {
+                double lat = location1.getLatitude();
+                double alt = location1.getLongitude();
+
+                LatLng latLng = new LatLng(lat, alt);
+
+                googleMap.clear();
+                googleMap.addMarker(
+                        new MarkerOptions()
+                                .position(latLng)
+                                .title("Minha localização")
+                );
+
+
+                googleMap.animateCamera(
+                        CameraUpdateFactory.newLatLngZoom(latLng, 16f)
+                );
+            }
+        });
     }
 
     private void salvarAnddress() {
