@@ -24,6 +24,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.libraries.places.api.Places;
+import com.google.android.libraries.places.api.model.AddressComponent;
 import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.widget.Autocomplete;
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
@@ -42,8 +43,8 @@ public class DetailsFragment extends Fragment implements OnMapReadyCallback {
 
     private GoogleMap googleMap;
     private LatLng selectedLatLng;
-
     private Map<String, Object> location = new HashMap<>();
+    private Map<String, Object> anddressMap = new HashMap<>();
 
     DatabaseReference databaseReference;
     FragmentDetailsBinding binding;
@@ -64,10 +65,24 @@ public class DetailsFragment extends Fragment implements OnMapReadyCallback {
                 getString(R.string.google_maps_key));
 
         databaseReference = FirebaseDatabase.getInstance().getReference("locations");
+        binding.edtAddress.requestFocus();
         binding.btnSalvarLatitude.setOnClickListener(v -> salvarLatitude());
         binding.edtAddress.setOnClickListener(v -> listarAnddress());
+        binding.btnSalvarAnddress.setOnClickListener(v -> salvarAnddress());
 
         return binding.getRoot();
+    }
+
+    private void salvarAnddress() {
+        String fullAnddress = binding.edtAddress.getText().toString();
+        anddressMap.put("fullAnddress", fullAnddress);
+
+        databaseReference = FirebaseDatabase.getInstance().getReference("AnddressSell");
+        databaseReference.setValue(anddressMap).addOnSuccessListener(unused ->{
+            Toast.makeText(requireContext(), "Endereço salvo!", Toast.LENGTH_SHORT).show();
+        }).addOnFailureListener(e -> {
+            Toast.makeText(requireContext(), "Falha ao salvar endereço" + e.getMessage(), Toast.LENGTH_SHORT).show();
+        });
     }
 
     private void listarAnddress() {
@@ -111,6 +126,30 @@ public class DetailsFragment extends Fragment implements OnMapReadyCallback {
             googleMap.animateCamera(
                     CameraUpdateFactory.newLatLngZoom(latLng, 16f)
             );
+
+            String city = "";
+            String neighborhood = "";
+            String street = "";
+            String number = "";
+
+            for (AddressComponent component : place.getAddressComponents().asList()){
+                if (component.getTypes().contains("route")){
+                    street = component.getName();
+                    anddressMap.put("street", street);
+                }
+                if (component.getTypes().contains("street_number")){
+                    number = component.getName();
+                    anddressMap.put("number", number);
+                }
+                if (component.getTypes().contains("sublocality")){
+                    neighborhood = component.getName();
+                    anddressMap.put("neighborhood", neighborhood);
+                }
+                if (component.getTypes().contains("administrative_area_level_2")){
+                    city = component.getName();
+                    anddressMap.put("city", city);
+                }
+            }
         }
     }
 
@@ -124,7 +163,7 @@ public class DetailsFragment extends Fragment implements OnMapReadyCallback {
                         Toast.makeText(requireContext(), "Localização da venda Salva com sucesso!", Toast.LENGTH_SHORT).show();
 
                     }).addOnFailureListener(e -> {
-                        Toast.makeText(requireContext(), "Falha ao savar localização" + e.getMessage(), Toast.LENGTH_SHORT);
+                        Toast.makeText(requireContext(), "Falha ao savar localização " + e.getMessage(), Toast.LENGTH_SHORT);
                     });
         }
     }
