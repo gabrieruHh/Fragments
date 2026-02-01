@@ -65,6 +65,8 @@ public class TestProductActivity extends AppCompatActivity {
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         binding.recyclerView.setAdapter(imageAdapter);
+
+        //Autenticação e usuario atual
         mAuth = FirebaseAuth.getInstance();
         mUser = mAuth.getCurrentUser();
 

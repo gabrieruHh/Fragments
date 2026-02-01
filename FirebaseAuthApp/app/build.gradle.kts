@@ -66,6 +66,9 @@ dependencies {
 
     // AndroidX Core
     implementation("androidx.core:core-ktx:1.12.0")
+
+    implementation("com.google.android.libraries.places:places:3.3.0")
+
     implementation(libs.firebase.storage)
     implementation(libs.play.services.maps)
 
