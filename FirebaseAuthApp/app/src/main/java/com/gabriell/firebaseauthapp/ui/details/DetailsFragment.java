@@ -4,6 +4,8 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -37,10 +39,12 @@ import com.google.common.collect.MapMaker;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 
@@ -112,9 +116,9 @@ public class DetailsFragment extends Fragment implements OnMapReadyCallback {
         fusedLocationClient.getLastLocation().addOnSuccessListener(location1 -> {
             if (location1 != null) {
                 double lat = location1.getLatitude();
-                double alt = location1.getLongitude();
+                double lng = location1.getLongitude();
 
-                LatLng latLng = new LatLng(lat, alt);
+                LatLng latLng = new LatLng(lat, lng);
 
                 googleMap.clear();
                 googleMap.addMarker(
@@ -122,13 +126,37 @@ public class DetailsFragment extends Fragment implements OnMapReadyCallback {
                                 .position(latLng)
                                 .title("Minha localização")
                 );
-
-
                 googleMap.animateCamera(
                         CameraUpdateFactory.newLatLngZoom(latLng, 16f)
                 );
+
+                getAnddressFromLocation(lat, lng);
             }
         });
+    }
+
+    //Para pegar o endereço da localização atualdo usuario e colocar no edt
+    private void getAnddressFromLocation(double lat, double lng) {
+        Geocoder geocoder = new Geocoder(requireContext(), Locale.getDefault());
+
+        try {
+            List<Address> addresses = geocoder.getFromLocation(lat, lng, 1);
+            if (addresses != null && !addresses.isEmpty()){
+                Address address = addresses.get(0);
+
+                String fullAddress = address.getAddressLine(0);
+                String city = address.getLocality();
+                String neighborhood = address.getSubLocality();
+                String street = address.getThoroughfare();
+                String number = address.getSubThoroughfare();
+                String state = address.getAdminArea();
+
+                binding.edtAddress.setText(fullAddress);
+            }
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private void salvarAnddress() {
@@ -240,6 +268,11 @@ public class DetailsFragment extends Fragment implements OnMapReadyCallback {
 
             Toast.makeText(requireContext(), "Latidute: " + selectedLatLng.latitude, Toast.LENGTH_SHORT).show();
             Toast.makeText(requireContext(), "Longitude: " + selectedLatLng.longitude, Toast.LENGTH_SHORT).show();
+
+            double lat = selectedLatLng.latitude;
+            double lgt = selectedLatLng.longitude;
+
+            getAnddressFromLocation(lat, lgt);
 
             //Para guardar a latitude e longitude no Bundle e pegar em outro fragment
             Bundle result = new Bundle();
