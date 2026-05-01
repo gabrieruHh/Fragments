@@ -41,10 +41,12 @@ public class HomeFragment extends Fragment {
 
         binding.recyclerViewPost.setLayoutManager(new LinearLayoutManager(requireContext()));
 
+
+
         postAdapter = new PostAdapter(requireContext(), listPost, post -> {
             DetailsFragment detailsFragment = new DetailsFragment();
             Bundle bundle = new Bundle();
-            bundle.putString("postId", post.getUserId());
+            bundle.putString("postId", post.getIdPost());
             detailsFragment.setArguments(bundle);
 
             requireActivity()

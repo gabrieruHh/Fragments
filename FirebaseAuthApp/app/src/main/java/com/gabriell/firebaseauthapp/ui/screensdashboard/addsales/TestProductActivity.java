@@ -3,9 +3,12 @@ package com.gabriell.firebaseauthapp.ui.screensdashboard.addsales;
 import android.app.Activity;
 import android.app.ComponentCaller;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -35,6 +38,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -61,8 +65,19 @@ public class TestProductActivity extends AppCompatActivity {
         binding = ActivityTestProductBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        View content = binding.containerMain;
+        ViewCompat.setOnApplyWindowInsetsListener(content, (v, insets) -> {
+            Insets statusInsets = insets.getInsets(WindowInsetsCompat.Type.statusBars());
+            v.setPadding(
+                    0,
+                    statusInsets.top,
+                    0,
+                    v.getPaddingBottom()
+            );
+            return insets;
+        });
+
         imageAdapter = new ImageAdapter(uriList);
-        binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         binding.recyclerView.setAdapter(imageAdapter);
 
@@ -83,8 +98,9 @@ public class TestProductActivity extends AppCompatActivity {
                 if (!uris.isEmpty()){
                     uriList.addAll(uris);
                     imageAdapter.notifyDataSetChanged();
+                }else{
+                    Toast.makeText(this, "Nenhuma imagem foi selecionada", Toast.LENGTH_SHORT).show();
                 }
-                Log.d("PhotoPicker", "Nenhuma mídia foi selecionada");
             });
     private void escolherImagem() {
         uriList.clear();
@@ -114,29 +130,60 @@ public class TestProductActivity extends AppCompatActivity {
 
         Toast.makeText(this, "Iniciando Upload", Toast.LENGTH_LONG).show();
 
-        for (Uri image : uriList){
+        for (Uri image : uriList) {
 
             String nomeArquivo = UUID.randomUUID().toString();
             StorageReference refStorage = storageRef.child(nomeArquivo);
-            refStorage.putFile(image)
+
+            byte[] imagemComprimida = comprimirImagem(image);
+            if (imagemComprimida != null) {
+            refStorage.putBytes(imagemComprimida)
                     .addOnSuccessListener(taskSnapshot ->
                             refStorage.getDownloadUrl().addOnSuccessListener(uri -> {
                                 urlList.add(uri.toString());
 
-                                if (urlList.size() == totalImagens){
+                                if (urlList.size() == totalImagens) {
                                     salvarNoFirebase(idUser, description, urlList);
+                                    Toast.makeText(this, "aqui inicia o salvar", Toast.LENGTH_LONG).show();
                                 }
-                            }));
+                            })).addOnFailureListener(e -> {
+                        binding.etDescription.setText(e.toString());
+                    });
+        }
+        }
+    }
+
+    //Função para comprimir imagem
+    private byte[] comprimirImagem(Uri image) {
+        try {
+            Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), image);
+            int largura = bitmap.getWidth();
+            int altura = bitmap.getHeight();
+
+            int novaLargura = 800;
+            int novaAltura = (altura * novaLargura) / largura;
+            Bitmap bitmapReduzido = Bitmap.createScaledBitmap(bitmap, novaLargura, novaAltura, true);
+
+            ByteArrayOutputStream boas = new ByteArrayOutputStream();
+            bitmapReduzido.compress(Bitmap.CompressFormat.JPEG, 70, boas);
+
+            return boas.toByteArray();
+
+        } catch (Exception e){
+            e.printStackTrace();
+            return null;
         }
     }
 
     private void salvarNoFirebase(String idUser, String description, List<String> urlList) {
+        Toast.makeText(this, "Iniciando salvamento dentro do metodo", Toast.LENGTH_LONG).show();
         idPost = databaseRef.push().getKey();
 
         double longitude = 2342413;
         double latitude = 41241341;
 
         if (idPost != null){
+            Toast.makeText(this, "entrando dentro do if do idpost ", Toast.LENGTH_LONG).show();
             Post post = new Post(idPost,idUser, description, urlList, latitude, longitude);
             databaseRef.child(idPost).setValue(post)
                     .addOnSuccessListener(unused -> {
