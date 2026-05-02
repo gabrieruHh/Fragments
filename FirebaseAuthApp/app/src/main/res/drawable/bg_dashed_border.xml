@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    bg_dashed_border.xml
+    Drawable para a área de upload com borda tracejada.
+    Usado em: activity_nova_oferta.xml → área "Adicionar fotos"
+-->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+
+    <stroke
+        android:width="2dp"
+        android:color="@color/border"
+        android:dashWidth="8dp"
+        android:dashGap="4dp" />
+
+    <corners android:radius="12dp" />
+
+    <solid android:color="@color/input_50" />
+
+</shape>

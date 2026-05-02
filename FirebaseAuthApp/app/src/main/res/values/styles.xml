@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- App Theme -->
+    <style name="Theme.NovaOferta" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorOnPrimary">@color/primary_foreground</item>
+        <item name="colorSurface">@color/background</item>
+        <item name="colorOnSurface">@color/foreground</item>
+        <item name="android:windowBackground">@color/background</item>
+    </style>
+
+    <!-- Section title: e.g. "Mídia", "Localização" -->
+    <style name="TextAppearance.NovaOferta.SectionTitle" parent="TextAppearance.MaterialComponents.Headline6">
+        <item name="android:textSize">18sp</item>
+        <item name="android:fontFamily">@font/inter_semibold</item>
+        <item name="android:textColor">@color/foreground</item>
+    </style>
+
+    <!-- Toolbar title -->
+    <style name="TextAppearance.NovaOferta.Title" parent="TextAppearance.MaterialComponents.Subtitle1">
+        <item name="android:textSize">18sp</item>
+        <item name="android:fontFamily">@font/inter_medium</item>
+        <item name="android:textColor">@color/foreground</item>
+    </style>
+
+    <!-- Counter button – neutral (minus) -->
+    <style name="Widget.NovaOferta.CounterButton.Neutral" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="android:minWidth">0dp</item>
+        <item name="android:minHeight">0dp</item>
+        <item name="android:padding">0dp</item>
+        <item name="iconPadding">0dp</item>
+        <item name="iconTint">@color/muted_foreground</item>
+        <item name="iconSize">16dp</item>
+        <item name="strokeColor">@color/border</item>
+        <item name="strokeWidth">1dp</item>
+        <item name="backgroundTint">@color/background</item>
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearance.Counter.Circle</item>
+        <item name="elevation">1dp</item>
+    </style>
+
+    <!-- Counter button – primary (plus) -->
+    <style name="Widget.NovaOferta.CounterButton.Primary" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="android:minWidth">0dp</item>
+        <item name="android:minHeight">0dp</item>
+        <item name="android:padding">0dp</item>
+        <item name="iconPadding">0dp</item>
+        <item name="iconTint">@color/primary</item>
+        <item name="iconSize">16dp</item>
+        <item name="strokeColor">@color/secondary</item>
+        <item name="strokeWidth">1dp</item>
+        <item name="backgroundTint">@color/secondary</item>
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearance.Counter.Circle</item>
+        <item name="elevation">1dp</item>
+    </style>
+
+    <!-- Circle shape for counter buttons -->
+    <style name="ShapeAppearance.Counter.Circle" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
+
+</resources>

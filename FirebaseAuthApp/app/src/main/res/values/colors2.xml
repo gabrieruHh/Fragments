@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Base palette -->
+    <color name="background">#FFFFFF</color>
+    <color name="foreground">#000000</color>
+    <color name="border">#E8E8E8</color>
+    <color name="input">#F8F8F7</color>
+    <color name="input_20">#33F8F8F7</color>  <!-- 20% opacity -->
+    <color name="input_50">#80F8F8F7</color>  <!-- 50% opacity -->
+    <color name="primary">#277EFF</color>
+    <color name="primary_foreground">#FFFFFF</color>
+    <color name="secondary">#DBE7FB</color>
+    <color name="secondary_30">#4DDBE7FB</color> <!-- 30% opacity -->
+    <color name="muted">#E8E8E8</color>
+    <color name="muted_foreground">#949494</color>
+</resources>

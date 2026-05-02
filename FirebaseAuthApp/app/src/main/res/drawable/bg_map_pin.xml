@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    bg_map_pin.xml
+    Círculo azul (primary) para o marcador de localização no mapa.
+-->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="oval">
+
+    <solid android:color="@color/primary" />
+
+    <!-- Sombra simulada via padding — use elevation no FrameLayout pai para sombra real -->
+</shape>
