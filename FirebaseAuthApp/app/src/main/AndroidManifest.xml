@@ -3,10 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES"/>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -18,10 +17,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FirebaseAuthApp"
         tools:targetApi="31">
+        <activity
+            android:name=".ui.screensdashboard.addsales.NewofferActivity"
+            android:exported="false" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyDRfpIUxSKVlY6lUB8WpH1Ymo4ZGjTEFK8"/>
+            android:value="AIzaSyDRfpIUxSKVlY6lUB8WpH1Ymo4ZGjTEFK8" />
 
         <activity
             android:name=".ui.screensdashboard.addsales.TestProductActivity"

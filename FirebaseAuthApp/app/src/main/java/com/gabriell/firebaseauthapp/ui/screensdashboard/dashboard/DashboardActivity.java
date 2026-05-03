@@ -12,14 +12,13 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 
+import com.gabriell.firebaseauthapp.ui.screensdashboard.addsales.NewofferActivity;
 import com.gabriell.firebaseauthapp.R;
 import com.gabriell.firebaseauthapp.databinding.ActivityDashboardBinding;
 import com.gabriell.firebaseauthapp.ui.login.LoginActivity;
-import com.gabriell.firebaseauthapp.ui.screensdashboard.addsales.TestProductActivity;
 import com.gabriell.firebaseauthapp.ui.screensdashboard.home.HomeFragment;
 import com.gabriell.firebaseauthapp.ui.screensdashboard.profile.ProfileFragment;
 import com.gabriell.firebaseauthapp.util.ChangedFragment;
-import com.gabriell.firebaseauthapp.util.LogoutGoogle;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -89,7 +88,7 @@ public class DashboardActivity extends AppCompatActivity {
 
         binding.navAddSale.setOnClickListener(v -> {
             animateClick(v);
-            startActivity(new Intent(this, TestProductActivity.class));
+            startActivity(new Intent(this, NewofferActivity.class));
         });
 
         binding.navProfile.setOnClickListener(v -> {

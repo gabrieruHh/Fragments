@@ -77,19 +77,19 @@ public class TestProductActivity extends AppCompatActivity {
             return insets;
         });
 
-//        imageAdapter = new ImageAdapter(uriList);
-//        binding.recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-//        binding.recyclerView.setAdapter(imageAdapter);
-//
-//        //Autenticação e usuario atual
-//        mAuth = FirebaseAuth.getInstance();
-//        mUser = mAuth.getCurrentUser();
-//
-//        databaseRef = FirebaseDatabase.getInstance().getReference("post");
-//        storageRef = FirebaseStorage.getInstance().getReference("post");
-//
-//        binding.btnSelectImages.setOnClickListener(v -> escolherImagem());
-//        binding.btnPostar.setOnClickListener(v -> postar());
+        imageAdapter = new ImageAdapter(uriList);
+        binding.recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        binding.recyclerView.setAdapter(imageAdapter);
+
+        //Autenticação e usuario atual
+        mAuth = FirebaseAuth.getInstance();
+        mUser = mAuth.getCurrentUser();
+
+        databaseRef = FirebaseDatabase.getInstance().getReference("post");
+        storageRef = FirebaseStorage.getInstance().getReference("post");
+
+        binding.btnSelectImages.setOnClickListener(v -> escolherImagem());
+        binding.btnPostar.setOnClickListener(v -> postar());
 
     }
     //Inicializador do seletor de imagens
@@ -110,48 +110,48 @@ public class TestProductActivity extends AppCompatActivity {
                 .build());
     }
 
-//    private void postar() {
-//        //recebendo dados da postagem
-//        String idUser = mUser.getUid();
-//        String description = binding.etDescription.getText().toString();
-//
-//        if (idUser != null){
-//            if (uriList.isEmpty() || description.isEmpty()){
-//                Toast.makeText(this, "Preencha todos os campos", Toast.LENGTH_LONG).show();
-//                return;
-//            }
-//        }else {
-//            Toast.makeText(this, "Usuário vazio", Toast.LENGTH_LONG).show();
-//        }
-//
-//        //List para guardar as URLs que o firebase vai gerar
-//        List<String> urlList = new ArrayList<>();
-//        final int totalImagens = uriList.size();
-//
-//        Toast.makeText(this, "Iniciando Upload", Toast.LENGTH_LONG).show();
-//
-//        for (Uri image : uriList) {
-//
-//            String nomeArquivo = UUID.randomUUID().toString();
-//            StorageReference refStorage = storageRef.child(nomeArquivo);
-//
-//            byte[] imagemComprimida = comprimirImagem(image);
-//            if (imagemComprimida != null) {
-//            refStorage.putBytes(imagemComprimida)
-//                    .addOnSuccessListener(taskSnapshot ->
-//                            refStorage.getDownloadUrl().addOnSuccessListener(uri -> {
-//                                urlList.add(uri.toString());
-//
-//                                if (urlList.size() == totalImagens) {
-//                                    salvarNoFirebase(idUser, description, urlList);
-//                                    Toast.makeText(this, "aqui inicia o salvar", Toast.LENGTH_LONG).show();
-//                                }
-//                            })).addOnFailureListener(e -> {
-//                        binding.etDescription.setText(e.toString());
-//                    });
-//        }
-//        }
-//    }
+    private void postar() {
+        //recebendo dados da postagem
+        String idUser = mUser.getUid();
+        String description = binding.etDescription.getText().toString();
+
+        if (idUser != null){
+            if (uriList.isEmpty() || description.isEmpty()){
+                Toast.makeText(this, "Preencha todos os campos", Toast.LENGTH_LONG).show();
+                return;
+            }
+        }else {
+            Toast.makeText(this, "Usuário vazio", Toast.LENGTH_LONG).show();
+        }
+
+        //List para guardar as URLs que o firebase vai gerar
+        List<String> urlList = new ArrayList<>();
+        final int totalImagens = uriList.size();
+
+        Toast.makeText(this, "Iniciando Upload", Toast.LENGTH_LONG).show();
+
+        for (Uri image : uriList) {
+
+            String nomeArquivo = UUID.randomUUID().toString();
+            StorageReference refStorage = storageRef.child(nomeArquivo);
+
+            byte[] imagemComprimida = comprimirImagem(image);
+            if (imagemComprimida != null) {
+                refStorage.putBytes(imagemComprimida)
+                        .addOnSuccessListener(taskSnapshot ->
+                                refStorage.getDownloadUrl().addOnSuccessListener(uri -> {
+                                    urlList.add(uri.toString());
+
+                                    if (urlList.size() == totalImagens) {
+                                        salvarNoFirebase(idUser, description, urlList);
+                                        Toast.makeText(this, "aqui inicia o salvar", Toast.LENGTH_LONG).show();
+                                    }
+                                })).addOnFailureListener(e -> {
+                            binding.etDescription.setText(e.toString());
+                        });
+            }
+        }
+    }
 
     //Função para comprimir imagem
     private byte[] comprimirImagem(Uri image) {
