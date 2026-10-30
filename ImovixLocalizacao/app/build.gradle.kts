@@ -1,5 +1,11 @@
 plugins {
     alias(libs.plugins.android.application)
+    id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
+}
+
+secrets{
+    propertiesFileName = "secrets.properties"
+    defaultPropertiesFileName = "local.defaults.properties"
 }
 
 android {
@@ -31,9 +37,17 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
+
+    buildFeatures{
+        dataBinding = true
+        viewBinding = true
+    }
 }
 
 dependencies {
+    //Dependencia do GoogleMaps
+    implementation("com.google.android.gms:play-services-maps:19.2.0")
+
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)
