@@ -45,9 +45,6 @@ android {
 }
 
 dependencies {
-    //Dependencia do GoogleMaps
-    implementation("com.google.android.gms:play-services-maps:19.2.0")
-
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)
@@ -55,4 +52,10 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+
+    //Dependencia do GoogleMaps
+    implementation("com.google.android.gms:play-services-maps:19.2.0")
+
+    //Depêndencia para pegar a localização atual do usúario
+    implementation("com.google.android.gms:play-services-location:21.3.0")
 }
